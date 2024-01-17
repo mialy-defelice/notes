@@ -1,0 +1,40 @@
+Notes on testing failures:
+
+tests/test_api.py
+
+	FAILED tests/test_api.py::TestSynapseStorage::test_get_dataset_files[None-False] - AssertionError: assert (['syn25705259', 'Boolean Test'] and ['syn2366...
+	- Has failed in past
+
+	FAILED tests/test_api.py::TestManifestOperation::test_populate_manifest - assert 500 == 200
+	- Passed after second run
+
+	FAILED tests/test_api.py::TestSchemaVisualization::test_visualize_component[Patient-Component,Component,TBD,False,,,,Patient] - assert 'Component,Component,TBD,False,,,,Patient' in 'Attribute,Label...
+	FAILED tests/test_api.py::TestSchemaVisualization::test_visualize_component[BulkRNA-seqAssay-Component,Component,TBD,False,,,,BulkRNA-seqAssay] - assert 'Component,Component,TBD,False,,,,BulkRNA-seqAssay' in 'Attrib...
+
+	- Viz api is unstable
+
+	FAILED tests/test_api.py::TestValidationBenchmark::test_validation_performance[Check URL] - assert 64.7332190349698 < 5.0
+	FAILED tests/test_api.py::TestValidationBenchmark::test_validation_performance[Check Match at Least] - assert 9.352937364019454 < 5.0
+	FAILED tests/test_api.py::TestValidationBenchmark::test_validation_performance[Check Match at Least values] - assert 9.242281191982329 < 5.0
+	FAILED tests/test_api.py::TestValidationBenchmark::test_validation_performance[Check Match Exactly] - assert 9.495705815963447 < 5.0
+	FAILED tests/test_api.py::TestValidationBenchmark::test_validation_performance[Check Match Exactly values] - assert 9.924044389976189 < 5.0
+	- ignore benchmarking fails
+
+tests/test_cli.py -- All passed
+tests/test_configuration.py -- All passed
+tests/test_configuration.py  -- All passed
+tests/test_manifest.py  
+	FAILED tests/test_manifest.py::TestManifestGenerator::test_get_manifest_first_time[data_frame-skip_annotations-BulkRNAseqAssay] - AssertionError: assert True == ('eTag' in                            ...
+	- FDS-1047; a known failure
+tests/test_metadata.py  -- All passed
+tests/test_schemas.py -- All passed
+tests/test_store.py
+	FAILED tests/test_store.py::TestSynapseStorage::test_get_file_entityIds[True] - ValueError: columns overlap but no suffix specified: Index(['entityId...
+
+	- Fixed by deleting id and entity id from the mock_manifests/test_BulkRNAseq.csv file
+tests/test_utils.py -- All passed
+tests/test_validation.py -- All passed
+tests/test_validator.py -- All passed
+tests/test_viz.py -- All passed
+
+
