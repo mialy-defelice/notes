@@ -1,0 +1,47 @@
+tests/tests_api notes for running on branch  rs-fix-manifest-required-cols.
+Addressing issues in tests prior to pushing to develop-refactor schemas.
+Will also need to tests 
+
+	1. FAILED tests/test_api.py::TestSynapseStorage::test_get_dataset_files[None-False] - AssertionError: assert (['syn25705259', 'Boolean Test'] and ['syn2366...
+
+		- Still broken on dev
+
+	2. FAILED tests/test_api.py::TestManifestOperation::test_manifest_download[None-None-syn51078535-BulkRNA-seqAssay-synapse_storage_manifest.csv] - assert 500 == 200
+	FAILED tests/test_api.py::TestManifestOperation::test_manifest_download[None-Example.csv-syn51078535-BulkRNA-seqAssay-synapse_storage_manifest.csv] - assert 500 == 200
+	FAILED tests/test_api.py::TestManifestOperation::test_manifest_download[True-None-syn51078535-BulkRNA-seqAssay-synapse_storage_manifest.csv] - assert 500 == 200
+	FAILED tests/test_api.py::TestManifestOperation::test_manifest_download[True-Example.csv-syn51078535-BulkRNA-seqAssay-synapse_storage_manifest.csv] - assert 500 == 200
+	FAILED tests/test_api.py::TestManifestOperation::test_manifest_download[False-None-syn51078535-BulkRNA-seqAssay-synapse_storage_manifest.csv] - assert 500 == 200
+	FAILED tests/test_api.py::TestManifestOperation::test_manifest_download[False-Example.csv-syn51078535-BulkRNA-seqAssay-synapse_storage_manifest.csv] - assert 500 == 200
+
+		- All these failed locally, but the released API works and returns results, so I think its an issue of local cacheing
+
+	3. FAILED tests/test_api.py::TestManifestOperation::test_dataset_manifest_download[None-None] - assert 500 == 200
+	FAILED tests/test_api.py::TestManifestOperation::test_dataset_manifest_download[None-True] - assert 500 == 200
+	FAILED tests/test_api.py::TestManifestOperation::test_dataset_manifest_download[None-False] - assert 500 == 200
+	FAILED tests/test_api.py::TestManifestOperation::test_dataset_manifest_download[Test-None] - assert 500 == 200
+	FAILED tests/test_api.py::TestManifestOperation::test_dataset_manifest_download[Test-True] - assert 500 == 200
+	FAILED tests/test_api.py::TestManifestOperation::test_dataset_manifest_download[Test-False] - assert 500 == 200
+	
+	4. FAILED tests/test_api.py::TestManifestOperation::test_submit_manifest_file_only_replace[MockComponent-test_manifest_csv] - assert 500 == 200
+
+	- Passed after a re-run
+
+	5. FAILED tests/test_api.py::TestSchemaVisualization::test_visualize_component[Patient-Component,Component,TBD,False,,,,Patient] - assert 'Component,Component,TBD,False,,,,Patient' in 'Attribute,Label...
+	FAILED tests/test_api.py::TestSchemaVisualization::test_visualize_component[BulkRNA-seqAssay-Component,Component,TBD,False,,,,BulkRNA-seqAssay] - assert 'Component,Component,TBD,False,,,,BulkRNA-seqAssay' in 'Attrib...
+
+		assert response_text in response.text
+	E       assert 'Component,Component,TBD,False,,,,BulkRNA-seqAssay' in 'Attribute,Label,Description,Required,Cond_Req,Valid Values,Conditional Requirements,Component\nFilename,Filename,TBD,True,,,,BulkRNA-seqAssay\nFile Format,FileFormat,TBD,True,,"[\'BAM\', \'CSV/TSV\', \'FASTQ\', \'CRAM\']",,BulkRNA-seqAssay\nSample ID,SampleID,TBD,True,,,,BulkRNA-seqAssay\nComponent,Component,TBD,True,,,,BulkRNA-seqAssay\nGenome Build,GenomeBuild,TBD,False,True,"[\'GRCm38\', \'GRCm39\', \'GRCh37\', \'GRCh38\', \'\']"," If File Format is ""BAM"" OR ""CSV/TSV"" OR ""CRAM"" then ""Genome Build"" is required",BulkRNA-seqAssay\nGenome FASTA,GenomeFASTA,TBD,False,True,," If File Format is ""CRAM"" then ""Genome FASTA"" is required",BulkRNA-seqAssay\n'
+	E        +  where 'Attribute,Label,Description,Required,Cond_Req,Valid Values,Conditional Requirements,Component\nFilename,Filename,TBD,True,,,,BulkRNA-seqAssay\nFile Format,FileFormat,TBD,True,,"[\'BAM\', \'CSV/TSV\', \'FASTQ\', \'CRAM\']",,BulkRNA-seqAssay\nSample ID,SampleID,TBD,True,,,,BulkRNA-seqAssay\nComponent,Component,TBD,True,,,,BulkRNA-seqAssay\nGenome Build,GenomeBuild,TBD,False,True,"[\'GRCm38\', \'GRCm39\', \'GRCh37\', \'GRCh38\', \'\']"," If File Format is ""BAM"" OR ""CSV/TSV"" OR ""CRAM"" then ""Genome Build"" is required",BulkRNA-seqAssay\nGenome FASTA,GenomeFASTA,TBD,False,True,," If File Format is ""CRAM"" then ""Genome FASTA"" is required",BulkRNA-seqAssay\n' = <WrapperTestResponse 643 bytes [200 OK]>.text
+
+	tests/test_api.py:924: AssertionError
+
+	Remember there were issues witht he validator.
+
+	6. FAILED tests/test_api.py::TestValidationBenchmark::test_validation_performance[Check URL] - assert 70.41723021212965 < 5.0
+	FAILED tests/test_api.py::TestValidationBenchmark::test_validation_performance[Check Match at Least] - assert 10.274449915857986 < 5.0
+	FAILED tests/test_api.py::TestValidationBenchmark::test_validation_performance[Check Match at Least values] - assert 9.800791042856872 < 5.0
+	FAILED tests/test_api.py::TestValidationBenchmark::test_validation_performance[Check Match Exactly] - assert 10.414205690845847 < 5.0
+	FAILED tests/test_api.py::TestValidationBenchmark::test_validation_performance[Check Match Exactly values] - assert 9.19594581821002 < 5.0
+
+	- Ignoring benchmarking errors.
+
